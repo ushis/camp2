@@ -27,9 +27,6 @@ module HasToken
     #   user == User.find_by_auth_token!(token)
     #   #=> true
     #
-    #   user.valid_auth_token?(token)
-    #   #=> true
-    #
     # The find_by_{scope}_token method returns nil on error.
     #
     # The find_by_{scope}_token! method raises ActiveRecord::RecordNotFound
@@ -55,14 +52,6 @@ module HasToken
 
       define_method("#{scope}_token") do
         tokens[scope].for(self).to_s
-      end
-
-      define_method("valid_#{scope}_token?") do |token|
-        begin
-          tokens[scope].from_s(token).id == id
-        rescue JWT::DecodeError, JWT::ExpiredSignature
-          false
-        end
       end
     end
   end

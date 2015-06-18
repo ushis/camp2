@@ -34,11 +34,4 @@ class V1::SharesController < V1::ApplicationController
     @share = @topic.shares.find(params[:id])
     authorize @share
   end
-
-  # Returns the permitted share parameters
-  def share_params
-    params
-      .require(:share)
-      .permit(*SharePolicy.new(@share || Share).permitted_attributes)
-  end
 end

@@ -86,6 +86,97 @@ describe Invitation do
     it { is_expected.to match_array([expired1, expired2]) }
   end
 
+  describe '.find_by_invitation_token' do
+    subject { Invitation.find_by_invitation_token(token) }
+
+    let(:token) { Token.new(id, scope, exp).to_s }
+
+    let(:invitation) { create(:invitation) }
+
+    let(:id) { invitation.id }
+
+    let(:scope) { :invitation }
+
+    let(:exp) { 1.week.from_now.to_i }
+
+    it { is_expected.to eq(invitation) }
+
+    context 'given a token with invalid id' do
+      let(:id) { -1 }
+
+      it { is_expected.to eq(nil) }
+    end
+
+    context 'given a token with invalid scope' do
+      let(:scope) { :invalid }
+
+      it { is_expected.to eq(nil) }
+    end
+
+    context 'given an expired token' do
+      let(:exp) { 1.minute.ago.to_i }
+
+      it { is_expected.to eq(nil) }
+    end
+  end
+
+  describe '.find_by_invitation_token!' do
+    subject { Invitation.find_by_invitation_token!(token) }
+
+    let(:invitation) { create(:invitation) }
+
+    let(:token) { Token.new(id, scope, exp).to_s }
+
+    let(:id) { invitation.id }
+
+    let(:scope) { :invitation }
+
+    let(:exp) { 1.week.from_now.to_i }
+
+    it { is_expected.to eq(invitation) }
+
+    context 'given a token with invalid id' do
+      let(:id) { -1 }
+
+      it 'raises an error' do
+        expect { Invitation.find_by_invitation_token!(token) }.to \
+          raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'given a token with invalid scope' do
+      let(:scope) { :invalid }
+
+      it 'raises an error' do
+        expect { Invitation.find_by_invitation_token!(token) }.to \
+          raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'given an expired token' do
+      let(:exp) { 1.minute.ago.to_i }
+
+      it 'raises an error' do
+        expect { Invitation.find_by_invitation_token!(token) }.to \
+          raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
+  describe '#invitation_token' do
+    subject { Invitation.tokens[:invitation].from_s(token) }
+
+    let(:token) { invitation.invitation_token }
+
+    let(:invitation) { create(:invitation) }
+
+    its(:id) { is_expected.to eq(invitation.id) }
+
+    its(:scope) { is_expected.to eq('invitation') }
+
+    its(:exp) { is_expected.to eq(4.weeks.from_now.to_i) }
+  end
+
   describe '#active?' do
     subject { invitation.active? }
 
@@ -125,9 +216,9 @@ describe Invitation do
   describe '#build_share_for' do
     subject { invitation.build_share_for(user) }
 
-    let(:invitation) { build(:invitation) }
-
     let(:user) { build(:user) }
+
+    let(:invitation) { build(:invitation) }
 
     it { is_expected.to be_a(Share) }
 

@@ -40,6 +40,97 @@ describe User do
     end
   end
 
+  describe '.find_by_access_token' do
+    subject { User.find_by_access_token(token) }
+
+    let(:token) { Token.new(id, scope, exp).to_s }
+
+    let(:user) { create(:user) }
+
+    let(:id) { user.id }
+
+    let(:scope) { :access }
+
+    let(:exp) { 1.week.from_now.to_i }
+
+    it { is_expected.to eq(user) }
+
+    context 'given a token with invalid id' do
+      let(:id) { -1 }
+
+      it { is_expected.to eq(nil) }
+    end
+
+    context 'given a token with invalid scope' do
+      let(:scope) { :invalid }
+
+      it { is_expected.to eq(nil) }
+    end
+
+    context 'given an expired token' do
+      let(:exp) { 1.minute.ago.to_i }
+
+      it { is_expected.to eq(nil) }
+    end
+  end
+
+  describe '.find_by_access_token!' do
+    subject { User.find_by_access_token!(token) }
+
+    let(:token) { Token.new(id, scope, exp).to_s }
+
+    let(:user) { create(:user) }
+
+    let(:id) { user.id }
+
+    let(:scope) { :access }
+
+    let(:exp) { 1.week.from_now.to_i }
+
+    it { is_expected.to eq(user) }
+
+    context 'given a token with invalid id' do
+      let(:id) { -1 }
+
+      it 'raises an error' do
+        expect { User.find_by_access_token!(token) }.to \
+          raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'given a token with invalid scope' do
+      let(:scope) { :invalid }
+
+      it 'raises an error' do
+        expect { User.find_by_access_token!(token) }.to \
+          raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'given an expired token' do
+      let(:exp) { 1.minute.ago.to_i }
+
+      it 'raises an error' do
+        expect { User.find_by_access_token!(token) }.to \
+          raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
+  describe '#access_token' do
+    subject { User.tokens[:access].from_s(token) }
+
+    let(:token) { user.access_token }
+
+    let(:user) { create(:user) }
+
+    its(:id) { is_expected.to eq(user.id) }
+
+    its(:scope) { is_expected.to eq('access') }
+
+    its(:exp) { is_expected.to eq(1.week.from_now.to_i) }
+  end
+
   describe '#email_with_name' do
     subject { user.email_with_name }
 
