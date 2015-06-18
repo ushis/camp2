@@ -16,7 +16,7 @@ class Token < Struct.new(:id, :scope, :exp)
 
   # Returns a new token for a record
   def self.for(record)
-    new(record.id, scope, ttl.seconds.from_now.to_i)
+    new(record.id, scope.to_s, ttl.seconds.from_now.to_i)
   end
 
   # Returns a token from a token string
