@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  belongs_to :list, inverse_of: :items
+  belongs_to :list, inverse_of: :items, counter_cache: true
 
   has_many :comments, dependent: :destroy, inverse_of: :item
   has_many :users,    through: :list

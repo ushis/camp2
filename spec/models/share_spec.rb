@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Share do
   describe 'assocations' do
     it { is_expected.to belong_to(:user).inverse_of(:shares) }
-    it { is_expected.to belong_to(:topic).inverse_of(:shares) }
+    it { is_expected.to belong_to(:topic).inverse_of(:shares).counter_cache(true) }
   end
 
   describe 'assocations' do

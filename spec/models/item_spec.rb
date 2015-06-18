@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Item do
   describe 'associations' do
-    it { is_expected.to belong_to(:list).inverse_of(:items) }
+    it { is_expected.to belong_to(:list).inverse_of(:items).counter_cache(true) }
     it { is_expected.to have_many(:comments).dependent(:destroy).inverse_of(:item) }
     it { is_expected.to have_many(:users).through(:list) }
   end

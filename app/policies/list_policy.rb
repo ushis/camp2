@@ -20,6 +20,6 @@ class ListPolicy < ApplicationPolicy
   end
 
   def accessible_attributes
-    %i(id name created_at updated_at)
+    %i(id name items_count created_at updated_at)
   end
 end

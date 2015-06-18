@@ -20,6 +20,6 @@ class ItemPolicy < ApplicationPolicy
   end
 
   def accessible_attributes
-    %i(id name created_at updated_at)
+    %i(id name comments_count created_at updated_at)
   end
 end

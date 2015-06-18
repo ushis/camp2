@@ -77,6 +77,9 @@ module ApiHelper
     {
       id: topic.id,
       name: topic.name,
+      shares_count: topic.shares_count,
+      invitations_count: topic.invitations_count,
+      lists_count: topic.lists_count,
       created_at: topic.created_at.as_json,
       updated_at: topic.updated_at.as_json
     }
@@ -90,6 +93,7 @@ module ApiHelper
     {
       id: list.id,
       name: list.name,
+      items_count: list.items_count,
       created_at: list.created_at.as_json,
       updated_at: list.updated_at.as_json
     }
@@ -103,6 +107,7 @@ module ApiHelper
     {
       id: item.id,
       name: item.name,
+      comments_count: item.comments_count,
       created_at: item.created_at.as_json,
       updated_at: item.updated_at.as_json
     }

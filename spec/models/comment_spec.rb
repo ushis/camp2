@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Comment do
   describe 'associations' do
     it { is_expected.to belong_to(:user).inverse_of(:comments) }
-    it { is_expected.to belong_to(:item).inverse_of(:comments) }
+    it { is_expected.to belong_to(:item).inverse_of(:comments).counter_cache(true) }
   end
 
   describe 'validations' do

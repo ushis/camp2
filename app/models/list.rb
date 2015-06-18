@@ -1,7 +1,7 @@
 class List < ActiveRecord::Base
   include ActsAsList
 
-  belongs_to :topic, inverse_of: :lists
+  belongs_to :topic, inverse_of: :lists, counter_cache: true
 
   has_many :items, dependent: :destroy, inverse_of: :list
   has_many :users, through: :topic

@@ -5,7 +5,7 @@ class Invitation < ActiveRecord::Base
 
   has_token :invitation, 4.weeks
 
-  belongs_to :topic, inverse_of: :invitations
+  belongs_to :topic, inverse_of: :invitations, counter_cache: true
 
   validates :topic, presence: true
 

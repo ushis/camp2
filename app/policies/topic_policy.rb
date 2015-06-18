@@ -20,6 +20,6 @@ class TopicPolicy < ApplicationPolicy
   end
 
   def accessible_attributes
-    %i(id name created_at updated_at)
+    %i(id name shares_count invitations_count lists_count created_at updated_at)
   end
 end

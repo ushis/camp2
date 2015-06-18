@@ -3,7 +3,7 @@ class V1::TopicsController < V1::ApplicationController
 
   # GET /v1/topics
   def index
-    @topics = current_user.topics
+    @topics = current_user.topics.order(name: :asc)
     render json: @topics
   end
 

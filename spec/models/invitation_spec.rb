@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Invitation do
   describe 'associations' do
-    it { is_expected.to belong_to(:topic).inverse_of(:invitations) }
+    it { is_expected.to belong_to(:topic).inverse_of(:invitations).counter_cache(true) }
   end
 
   describe 'validations' do

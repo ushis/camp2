@@ -82,7 +82,7 @@ describe ListPolicy do
   end
 
   describe '#accessible_attributes' do
-    let(:attrs) { %i(id name created_at updated_at) }
+    let(:attrs) { %i(id name items_count created_at updated_at) }
 
     its(:accessible_attributes) { is_expected.to match_array(attrs) }
   end

@@ -39,8 +39,9 @@ ActiveRecord::Schema.define(version: 20150617080237) do
 
   create_table "items", force: :cascade do |t|
     t.integer  "list_id"
-    t.string   "name",       null: false
+    t.string   "name",                       null: false
     t.integer  "position"
+    t.integer  "comments_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,8 +50,9 @@ ActiveRecord::Schema.define(version: 20150617080237) do
 
   create_table "lists", force: :cascade do |t|
     t.integer  "topic_id"
-    t.string   "name",       null: false
+    t.string   "name",                    null: false
     t.integer  "position"
+    t.integer  "items_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -69,10 +71,15 @@ ActiveRecord::Schema.define(version: 20150617080237) do
   add_index "shares", ["user_id"], name: "index_shares_on_user_id", using: :btree
 
   create_table "topics", force: :cascade do |t|
-    t.string   "name",       null: false
+    t.string   "name",                          null: false
+    t.integer  "shares_count",      default: 0, null: false
+    t.integer  "invitations_count", default: 0, null: false
+    t.integer  "lists_count",       default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "topics", ["name"], name: "index_topics_on_name", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false
