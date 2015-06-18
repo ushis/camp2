@@ -1,0 +1,28 @@
+api:
+  build: .
+  volumes:
+    - .:/pj-api
+  ports:
+    - "3000:3000"
+  links:
+    - postgres
+    - mailcatcher
+  environment:
+    - POSTGRES_HOST=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=secret
+    - SMTP_HOST=mailcatcher
+    - SMTP_PORT=1025
+  command: rails s -b 0.0.0.0
+
+postgres:
+  image: postgres
+  volumes:
+    - ~/.docker-volumes/camp2-api/postgres:/var/lib/postgresql/data
+  environment:
+    - POSTGRES_PASSWORD=secret
+
+mailcatcher:
+  image: ushi/mailcatcher
+  ports:
+    - "1080:1080"
