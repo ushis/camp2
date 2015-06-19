@@ -66,6 +66,6 @@ class V1::ItemsController < V1::ApplicationController
   def item_params
     params
       .require(:item)
-      .permit(*ItemPolicy.new(@item || Item).permitted_attributes)
+      .permit(*policy(@item || Item.new).permitted_attributes)
   end
 end

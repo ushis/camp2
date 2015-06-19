@@ -54,6 +54,6 @@ class V1::TopicsController < V1::ApplicationController
   def topic_params
     params
       .require(:topic)
-      .permit(*TopicPolicy.new(@topic || Topic).permitted_attributes)
+      .permit(*policy(@topic || Topic.new).permitted_attributes)
   end
 end

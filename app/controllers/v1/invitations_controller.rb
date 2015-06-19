@@ -51,6 +51,6 @@ class V1::InvitationsController < V1::ApplicationController
   def invitation_params
     params
       .require(:invitation)
-      .permit(*InvitationPolicy.new(@invitation || Invitation).permitted_attributes)
+      .permit(*policy(@invitation || Invitation.new).permitted_attributes)
   end
 end

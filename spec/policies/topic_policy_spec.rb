@@ -60,7 +60,7 @@ describe TopicPolicy do
   end
 
   describe '#permitted_attributes' do
-    let(:attrs) { %i(name list_positions) }
+    let(:attrs) { [:name, list_positions: []] }
 
     its(:permitted_attributes) { is_expected.to match_array(attrs) }
   end

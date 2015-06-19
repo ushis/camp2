@@ -76,7 +76,7 @@ describe ListPolicy do
   end
 
   describe '#permitted_attributes' do
-    let(:attrs) { %i(name item_positions) }
+    let(:attrs) { [:name, item_positions: []] }
 
     its(:permitted_attributes) { is_expected.to match_array(attrs) }
   end

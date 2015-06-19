@@ -16,7 +16,7 @@ class TopicPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i(name list_positions)
+    [:name, list_positions: []]
   end
 
   def accessible_attributes

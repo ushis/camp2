@@ -60,6 +60,6 @@ class V1::ListsController < V1::ApplicationController
   def list_params
     params
       .require(:list)
-      .permit(*ListPolicy.new(@list || List).permitted_attributes)
+      .permit(*policy(@list || List.new).permitted_attributes)
   end
 end
