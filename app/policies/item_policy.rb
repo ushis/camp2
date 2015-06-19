@@ -16,7 +16,11 @@ class ItemPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i(name)
+    if record.persisted?
+      %i(name list_id)
+    else
+      %i(name)
+    end
   end
 
   def accessible_attributes

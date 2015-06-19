@@ -76,7 +76,19 @@ describe ItemPolicy do
   end
 
   describe '#permitted_attributes' do
-    its(:permitted_attributes) { is_expected.to match_array(%i(name)) }
+    subject { ItemPolicy.new(nil, record).permitted_attributes }
+
+    context 'with persisted record' do
+      let(:record) { create(:item) }
+
+      it { is_expected.to match_array(%i(name list_id)) }
+    end
+
+    context 'with fresh record' do
+      let(:record) { build(:item) }
+
+      it { is_expected.to match_array(%i(name)) }
+    end
   end
 
   describe '#accessible_attributes' do

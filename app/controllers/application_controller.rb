@@ -30,10 +30,6 @@ class ApplicationController < ActionController::API
     headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
   end
 
-  def render_error(error, status)
-    render json: {errors: {base: error}}, status: status
-  end
-
   # Renders a 401 error
   def unauthorized
     headers['WWW-Authenticate'] = 'Bearer realm="API"'
@@ -41,18 +37,18 @@ class ApplicationController < ActionController::API
   end
 
   # Renders a 403 error
-  def forbidden(error)
-    render_error(error.message, :forbidden)
+  def forbidden
+    head :forbidden
   end
 
   # Renders a 404 error
-  def not_found(error)
-    render_error(error.message, :not_found)
+  def not_found
+    head :not_found
   end
 
   # Renders a 422 error
-  def unprocessable_entity(error)
-    render_error(error.message, :unprocessable_entity)
+  def unprocessable_entity
+    head :unprocessable_entity
   end
 
   # Ensures that the request comes from an authenticated user

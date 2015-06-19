@@ -242,9 +242,35 @@ describe V1::ItemsController do
           end
 
           context 'and params' do
-            let(:params) { {item: {name: name}} }
+            let(:params) { {item: {name: name, list_id: other_list_id}} }
 
             let(:name) { build(:item).name }
+
+            let(:other_list_id) { list.id }
+
+            context 'but id of a unrelated list' do
+              let(:other_list_id) { create(:list).id }
+
+              it { is_expected.to respond_with(:unprocessable_entity) }
+
+              it 'responds with error details' do
+                expect(json[:errors][:base]).to be_present
+              end
+            end
+
+            context 'but id of related list of another topic' do
+              let(:other_list_id) { create(:list, topic: other_topic).id }
+
+              let(:other_topic) { share.topic }
+
+              let(:share) { create(:share, user: user) }
+
+              it { is_expected.to respond_with(:unprocessable_entity) }
+
+              it 'responds with error details' do
+                expect(json[:errors][:base]).to be_present
+              end
+            end
 
             context 'but invalid name' do
               let(:name) { [nil, SecureRandom.hex(128)].sample }
@@ -265,6 +291,22 @@ describe V1::ItemsController do
 
               it 'sets the correct name' do
                 expect(item.reload.name).to eq(name)
+              end
+
+              context 'and has another list id' do
+                let(:other_list_id) { other_list.id }
+
+                let(:other_list) { create(:list, topic: topic) }
+
+                it { is_expected.to respond_with(:ok) }
+
+                it 'responds with the item' do
+                  expect(json[:item]).to eq(item_json(item.reload))
+                end
+
+                it 'connects the item with the other list' do
+                  expect(item.reload.list).to eq(other_list)
+                end
               end
             end
           end
