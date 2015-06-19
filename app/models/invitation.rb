@@ -28,8 +28,8 @@ class Invitation < ActiveRecord::Base
     !active?
   end
 
-  # Builds a share for the given user
-  def build_share_for(user)
-    topic.shares.build(user: user, invitation: self)
+  # Builds a share for the invitations topic
+  def build_share(attrs={})
+    topic.shares.build(attrs.merge(invitation: self))
   end
 end

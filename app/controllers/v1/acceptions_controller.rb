@@ -3,7 +3,7 @@ class V1::AcceptionsController < V1::ApplicationController
 
   # POST /v1/acception
   def create
-    @share = @invitation.build_share_for(current_user)
+    @share = @invitation.build_share(user: current_user)
     authorize @share
 
     if @share.save

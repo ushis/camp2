@@ -213,8 +213,8 @@ describe Invitation do
     end
   end
 
-  describe '#build_share_for' do
-    subject { invitation.build_share_for(user) }
+  describe '#build_share' do
+    subject { invitation.build_share(user: user) }
 
     let(:user) { build(:user) }
 
