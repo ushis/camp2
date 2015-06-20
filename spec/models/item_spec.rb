@@ -38,4 +38,24 @@ describe Item do
       end
     end
   end
+
+  describe '.open' do
+    subject { Item.open }
+
+    let!(:open) { create_list(:item, 3, closed: false) }
+
+    let!(:closed) { create_list(:item, 3, closed: true) }
+
+    it { is_expected.to match_array(open) }
+  end
+
+  describe '.closed' do
+    subject { Item.closed }
+
+    let!(:open) { create_list(:item, 3, closed: false) }
+
+    let!(:closed) { create_list(:item, 3, closed: true) }
+
+    it { is_expected.to match_array(closed) }
+  end
 end

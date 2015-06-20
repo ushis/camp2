@@ -39,13 +39,15 @@ ActiveRecord::Schema.define(version: 20150617080237) do
 
   create_table "items", force: :cascade do |t|
     t.integer  "list_id"
-    t.string   "name",                       null: false
+    t.string   "name",                           null: false
+    t.boolean  "closed",         default: false, null: false
     t.integer  "position"
-    t.integer  "comments_count", default: 0, null: false
+    t.integer  "comments_count", default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "items", ["closed"], name: "index_items_on_closed", using: :btree
   add_index "items", ["list_id"], name: "index_items_on_list_id", using: :btree
 
   create_table "lists", force: :cascade do |t|

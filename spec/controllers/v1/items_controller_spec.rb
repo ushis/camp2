@@ -150,9 +150,11 @@ describe V1::ItemsController do
           end
 
           context 'and params' do
-            let(:params) { {item: {name: name}} }
+            let(:params) { {item: {name: name, closed: closed}} }
 
             let(:name) { build(:item).name }
+
+            let(:closed) { [true, false].sample }
 
             context 'but invalid name' do
               let(:name) { [nil, SecureRandom.hex(128)].sample }
@@ -175,6 +177,10 @@ describe V1::ItemsController do
 
               it 'sets the correct name' do
                 expect(item.name).to eq(name)
+              end
+
+              it 'sets the correct item status' do
+                expect(item.closed).to eq(closed)
               end
 
               it 'connects the item with the list' do
@@ -242,9 +248,19 @@ describe V1::ItemsController do
           end
 
           context 'and params' do
-            let(:params) { {item: {name: name, list_id: other_list_id}} }
+            let(:params) do
+              {
+                item: {
+                  name: name,
+                  closed: closed,
+                  list_id: other_list_id
+                }
+              }
+            end
 
             let(:name) { build(:item).name }
+
+            let(:closed) { [true, false].sample }
 
             let(:other_list_id) { list.id }
 
@@ -291,6 +307,10 @@ describe V1::ItemsController do
 
               it 'sets the correct name' do
                 expect(item.reload.name).to eq(name)
+              end
+
+              it 'sets the correct item staus' do
+                expect(item.reload.closed).to eq(closed)
               end
 
               context 'and has another list id' do

@@ -107,6 +107,7 @@ module ApiHelper
     {
       id: item.id,
       name: item.name,
+      closed: item.closed,
       comments_count: item.comments_count,
       created_at: item.created_at.as_json,
       updated_at: item.updated_at.as_json

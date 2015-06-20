@@ -11,6 +11,10 @@ class Item < ActiveRecord::Base
     errors.add(:base, 'Item cannot be moved among topics.') if topic_changed?
   end
 
+  scope :open, -> { where(closed: false) }
+
+  scope :closed, -> { where(closed: true) }
+
   private
 
   # Returns true if the topic has changed else false

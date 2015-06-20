@@ -81,18 +81,18 @@ describe ItemPolicy do
     context 'with persisted record' do
       let(:record) { create(:item) }
 
-      it { is_expected.to match_array(%i(name list_id)) }
+      it { is_expected.to match_array(%i(name closed list_id)) }
     end
 
     context 'with fresh record' do
       let(:record) { build(:item) }
 
-      it { is_expected.to match_array(%i(name)) }
+      it { is_expected.to match_array(%i(name closed)) }
     end
   end
 
   describe '#accessible_attributes' do
-    let(:attrs) { %i(id name comments_count created_at updated_at) }
+    let(:attrs) { %i(id name closed comments_count created_at updated_at) }
 
     its(:accessible_attributes) { is_expected.to match_array(attrs) }
   end

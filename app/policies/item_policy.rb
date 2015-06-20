@@ -17,13 +17,13 @@ class ItemPolicy < ApplicationPolicy
 
   def permitted_attributes
     if record.persisted?
-      %i(name list_id)
+      %i(name closed list_id)
     else
-      %i(name)
+      %i(name closed)
     end
   end
 
   def accessible_attributes
-    %i(id name comments_count created_at updated_at)
+    %i(id name closed comments_count created_at updated_at)
   end
 end

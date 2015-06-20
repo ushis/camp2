@@ -1,3 +1,3 @@
 class ItemSerializer < ApplicationSerializer
-  attributes :id, :name, :comments_count, :created_at, :updated_at
+  attributes :id, :name, :closed, :comments_count, :created_at, :updated_at
 end
