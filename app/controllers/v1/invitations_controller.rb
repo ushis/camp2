@@ -49,8 +49,6 @@ class V1::InvitationsController < V1::ApplicationController
 
   # Returns the permitted invitation parameters
   def invitation_params
-    params
-      .require(:invitation)
-      .permit(*policy(@invitation || Invitation.new).permitted_attributes)
+    permitted_attributes(@invitation || Invitation.new)
   end
 end

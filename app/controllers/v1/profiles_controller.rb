@@ -57,8 +57,6 @@ class V1::ProfilesController < V1::ApplicationController
 
   # Returns the permitted user parameters
   def user_params
-    params
-      .require(:user)
-      .permit(*policy(@user || User.new).permitted_attributes)
+    permitted_attributes(@user || User.new)
   end
 end

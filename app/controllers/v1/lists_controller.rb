@@ -58,8 +58,6 @@ class V1::ListsController < V1::ApplicationController
 
   # Returns the permitted list parameters
   def list_params
-    params
-      .require(:list)
-      .permit(*policy(@list || List.new).permitted_attributes)
+    permitted_attributes(@list || List.new)
   end
 end

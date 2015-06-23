@@ -70,8 +70,6 @@ class V1::CommentsController < V1::ApplicationController
 
   # Returns the permitted comment parameters
   def comment_params
-    params
-      .require(:comment)
-      .permit(*policy(@comment || Comment.new).permitted_attributes)
+    permitted_attributes(@comment || Comment.new)
   end
 end
