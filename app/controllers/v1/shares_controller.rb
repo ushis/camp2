@@ -4,7 +4,7 @@ class V1::SharesController < V1::ApplicationController
 
   # GET /v1/topic/:topic_id/shares
   def index
-    @shares = @topic.shares.includes(:user)
+    @shares = @topic.shares.includes(:user).order('users.name')
     render json: @shares
   end
 
